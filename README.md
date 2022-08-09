@@ -1,3 +1,3 @@
-# Finances
+# servico-web-app
 
-projeto pratico de finanças para aplicação da arquitetura master/detail em angular .
+Serviço Web App cadastro de servidores e setores.
