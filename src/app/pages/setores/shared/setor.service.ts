@@ -3,41 +3,40 @@ import {Observable,throwError} from "rxjs";
 import {map,flatMap,catchError} from "rxjs/operators";
 import {Setor} from "./setor.model";
 import {HttpClient,HttpHeaders} from "@angular/common/http";
+import {environment} from "../../../../environments/environment.prod";
+import {Error} from "../../../shared/models/Error.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SetorService {
 
-  private apiPath: string = "api/setores";
+  private URL_BASE_API = `${environment.URL_BASE}${environment.API}`;
+  private apiPath: string = `${this.URL_BASE_API}/setor`;
 
   constructor(private http:HttpClient) {}
 
   getAll(): Observable<Setor[]> {
     return this.http.get<Setor[]>(this.apiPath).pipe(
-      map(this.jsonDataToSetores)
+      map((s: Setor[]) => s)
     )
-    /*return this.http.get<Setor[]>(this.apiPath).pipe(
-      catchError(this.handleError),
-      map(this.jsonDataToCategories)
-    )*/
   }
   getById(id: number): Observable<Setor> {
     return this.http.get(`${this.apiPath}/${id}`).pipe(
       catchError(this.handleError),
-      map(this.jsonDataToSetor)
+      map(s => s)
     );
   }
   create(setor: Setor): Observable<Setor> {
     return this.http.post(this.apiPath,setor).pipe(
       catchError(this.handleError),
-      map(this.jsonDataToSetor)
+      map((s) => s)
     )
   }
   update(setor: Setor): Observable<Setor> {
     return this.http.put(`${this.apiPath}/${setor.id}`,setor).pipe(
       catchError(this.handleError),
-      map(() => setor)
+      map(s => s)
     )
   }
   delete(id:number): Observable<any> {
@@ -46,16 +45,9 @@ export class SetorService {
       map(() => null)
     );
   }
-  private jsonDataToSetores(jsonData: any[]): Setor[] {
-    const setores: Setor[] = [];
-    jsonData.forEach(element => setores.push(element as Setor))
-    return setores;
-  }
-  private jsonDataToSetor(jsonData: any): Setor {
-    return jsonData as Setor;
-  }
-  private handleError(error: any): Observable<any> {
-    console.log(" ERRO NA REQUISIÇÃO => "+error);
-    return throwError(error)
+
+  private handleError(errorHandler: any): Observable<any> {
+    errorHandler.error.errors = errorHandler.error.errors.map((err: string) => new Error(err))
+    return throwError(errorHandler)
   }
 }

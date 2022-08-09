@@ -1,6 +1,8 @@
+import {Servidor} from "../../categories/shared/servidor.model";
+
 export class Setor {
-  constructor(public id:number,
-              public name:string,
-              public description:string) {
-  }
+   id!:number;
+   descricao!:string;
+   uf!:string;
+   servidor!:Array<Servidor>
 }

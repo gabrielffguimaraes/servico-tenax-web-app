@@ -9,7 +9,9 @@ import { Setor } from "../shared/setor.model";
 })
 export class SetoresListComponent implements OnInit {
   setores!: Setor[] ;
-  constructor(private setorService:SetorService) { }
+  constructor(private setorService:SetorService) {
+
+  }
 
   ngOnInit(): void {
     this.setorService.getAll().subscribe(

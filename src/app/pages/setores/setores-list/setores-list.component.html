@@ -9,7 +9,7 @@
     <h2> Setores </h2>
   </div>
   <div class="col-12 col-md-6 p-0 d-flex justify-content-end">
-    <button type="button" class="btn btn-success align-self-center">+ Novo setor</button>
+    <a routerLink="new" type="button" class="btn btn-success align-self-center">+ Novo setor</a>
   </div>
 </div>
 <table class="table table-hover">
@@ -22,11 +22,11 @@
   <tbody class="border-top-0">
   <tr *ngFor="let setor of setores">
     <td>
-      <strong>{{setor.name}}</strong><br/>
-      <small class="text-muted">{{setor.description}}</small>
+      <strong>{{setor.descricao}}</strong><br/>
+      <small class="text-muted">{{setor.uf}}</small>
     </td>
     <td class="text-center">
-      <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="[12,'edit']">Editar</button>
+      <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="[setor.id,'edit']">Editar</button>
       <button class="btn btn-sm btn-outline-danger" (click)="deleteSetor(setor)">Excluir</button>
     </td>
   </tr>
