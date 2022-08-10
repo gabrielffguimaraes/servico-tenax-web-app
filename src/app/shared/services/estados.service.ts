@@ -11,4 +11,8 @@ export class EstadosService {
   static pegaListaEstados(): Array<Estado> {
     return estados;
   }
+
+  retornaEstado(sigla: string) : Estado | undefined  {
+    return  estados.find(estado => estado.sigla == sigla);
+  }
 }

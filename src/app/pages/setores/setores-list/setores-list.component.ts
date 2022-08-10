@@ -4,6 +4,8 @@ import { Setor } from "../shared/setor.model";
 import {Error} from "../../../shared/models/Error.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from "rxjs/operators";
+import {EstadosService} from "../../../shared/services/estados.service";
+import {Estado} from "../../../lists/lista-de-estados";
 
 @Component({
   selector: 'app-setores-list',
@@ -13,7 +15,9 @@ import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from "r
 export class SetoresListComponent implements OnInit {
   setores!: Setor[] ;
   formFilter!: FormGroup;
-  constructor(private setorService:SetorService,
+
+  constructor(private estadoService:EstadosService,
+              private setorService:SetorService,
               private formBuilder:FormBuilder) {
 
   }
@@ -35,6 +39,9 @@ export class SetoresListComponent implements OnInit {
           this.setores = setores;
         }
       );
+  }
+  retornaEstado(uf:string) : Estado {
+    return <Estado>this.estadoService.retornaEstado(uf);
   }
   deleteSetor(setor:Setor) {
     if(confirm("Deseja realmente excluir ?")) {

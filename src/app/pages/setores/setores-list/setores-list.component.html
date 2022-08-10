@@ -34,7 +34,7 @@
   <tr *ngFor="let setor of setores">
     <td>
       <strong>{{setor.descricao}}</strong><br/>
-      <small class="text-muted">{{setor.uf}} - {{setor.descricao}}</small>
+      <small class="text-muted">{{setor.uf}} - {{retornaEstado(setor.uf).descricao}}</small>
     </td>
     <td class="text-center">
       <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="[setor.id,'edit']">Editar</button>
