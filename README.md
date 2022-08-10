@@ -8,5 +8,7 @@ Serviço Web App cadastro de servidores e setores consumindo uma api na nuvem .
   <li>Reaproveitamento de código</li>
   <li>Herança</li>
   <li>Polimosfismo</li>
-  <li>Modulos etc ..</li>
+  <li>Validacoes personalizadas </li>
+  <li>Modulos</li>
+  <li>Componentização etc ..</li>
 </ul>
