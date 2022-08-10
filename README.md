@@ -4,7 +4,7 @@ Serviço Web App cadastro de servidores e setores consumindo uma api na nuvem .
 
 <h5>DEPLOY</h5>
 <ul>
-  <li>GitHub Pages</li>
+  <li><a target="_new" href="https://gabrielffguimaraes.github.io/servico-tenax-web-app/">GitHub Pages</a></li>
 </ul>
 
 <h5>METRICAS</h5>
