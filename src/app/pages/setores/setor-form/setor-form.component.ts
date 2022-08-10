@@ -4,95 +4,37 @@ import {EstadosService} from "../../../shared/services/estados.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SetorService} from "../shared/setor.service";
 import {Setor} from "../shared/setor.model";
-import {Error} from "../../../shared/models/Error.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {switchMap} from "rxjs/operators";
-import {Helper} from "../../../shared/helpers/Helper.helper";
+import {CrudComponent} from "../../../shared/components/crud/crud.component";
+import {Servidor} from "../../servidores/shared/servidor.model";
+import {ServidorService} from "../../servidores/shared/servidor.service";
 
 @Component({
   selector: 'app-setor-form',
   templateUrl: './setor-form.component.html',
   styleUrls: ['./setor-form.component.css']
 })
-export class SetorFormComponent implements OnInit,AfterContentChecked {
-  currentAction!: string;
-  pageTitle!: string;
-  crumbTitle!: string;
-  btnSetor!: string;
+export class SetorFormComponent extends CrudComponent<Setor> implements OnInit,AfterContentChecked {
 
-  setor!: Setor;
-  estados!: Estado[];
+  setor!:Setor;
   setorForm!:FormGroup;
-  errors: Error[] = [];
-
-  submitForm: boolean = false;
-
-  constructor(private formBuilder:FormBuilder,
-              private setorService: SetorService,
-              private route:ActivatedRoute,
-              private router:Router
-              ) {
-  }
-
-  ngOnInit(): void {
-    this.setCurrentAction();
-    this.buildSetorForm();
-    this.carregarSetor();
-    this.carregarEstados();
-  }
-
-  ngAfterContentChecked(): void {
-    this.setPageTitles();
-  }
-
-  save() :void {
-    this.submitForm = false;
-    this.currentAction == "new" ? this.create() : this.update();
-  }
-
-  isValidField(field: string) : boolean {
-    return <boolean>this.setorForm.get(field)?.valid;
-  }
-
-  // PRIVATE METHODS
-  private create() :void {
-    let setor: Setor = Object.assign(new Setor(),this.setorForm.value);
-    this.setorService.create(setor)
-      .subscribe(
-        (setor) => {
-          this.actionsForSuccess(setor);
-        },error => {
-          this.actionsForError(error);
-        },() => {
-          this.submitForm = true;
-        });
-  }
-
-  private update() :void {
-    let setor: Setor = Object.assign(new Setor(),this.setorForm.value);
-    this.setorService
-      .update(setor)
-      .subscribe(setor => {
-        this.actionsForSuccess(setor);
-      }, error => {
-        this.actionsForSuccess(error);
-      },() => {
-        this.submitForm = true;
-      });
+  estados!: Estado[];
+  constructor(
+              private formBuilder: FormBuilder,
+              private servidorService: ServidorService,
+              protected setorService: SetorService,
+              protected route:ActivatedRoute,
+              protected router:Router
+  ) {
+    super(setorService,route,router);
+    super.setListPath('setores');
   }
   private carregarSetor() :void {
-    if (this.currentAction == 'edit')
-      this.route.paramMap.pipe(
-        switchMap((params) => {
-          let id:number = parseInt(<string>params.get("id"));
-          return this.setorService.getById(+id);
-        })
-      ).subscribe(setor => {
-        this.setor = setor;
-        this.setorForm.patchValue(setor);
-      })
+    super.load().subscribe(setor => {
+      this.setor = setor;
+      this.setorForm.patchValue(setor);
+    });
   }
-
   private carregarEstados() :void {
     this.estados = EstadosService.pegaListaEstados();
   }
@@ -103,27 +45,22 @@ export class SetorFormComponent implements OnInit,AfterContentChecked {
       uf:[null, Validators.required]
     });
   }
-  private setCurrentAction() :void {
-    this.currentAction = (this.route.snapshot.url[0].path == 'new') ? 'new' : 'edit';
-  }
-  private setPageTitles() :void {
-    if(this.currentAction == 'new') {
-      this.pageTitle = "Novo Setor";
-      this.crumbTitle = "Novo"
-      this.btnSetor = "+ Adicionar"
-    } else {
-      this.pageTitle = "Editar";
-      this.crumbTitle = "Editando setor : " + Helper.sanitize(this.setor?.descricao)
-      this.btnSetor = "Editar"
+
+  deleteServidor(servidor:Servidor) {
+    if(confirm("Deseja realmente excluir este Servidor?")) {
+      this.servidorService.delete(servidor.id).subscribe(
+        () => this.setor.servidor = this.setor.servidor.filter(element => element != servidor),
+        () => alert("Erro ao deletar servidor")
+      );
     }
   }
-  private actionsForSuccess(setor: Setor) :void {
-    let message = (this.currentAction == "new") ? "Adicionado com sucesso" : "Alterado com sucesso";
-    this.router.navigateByUrl("setores",{skipLocationChange:true}).then(
-      () => this.router.navigate(["setores",setor.id,"edit"]).then(()=> { alert(message);})
-    )
+
+  ngOnInit() {
+    super.ngOnInit();
+    this.carregarEstados();
+    this.carregarSetor();
+    this.buildSetorForm();
+    super.setForm(this.setorForm);
   }
-  private actionsForError(responseError: { error : {errors : Error[]}}) : void {
-    this.errors = responseError.error.errors;
-  }
+
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SetorService } from "../shared/setor.service";
 import { Setor } from "../shared/setor.model";
+import {Error} from "../../../shared/models/Error.model";
 
 @Component({
   selector: 'app-setores-list',
@@ -23,7 +24,13 @@ export class SetoresListComponent implements OnInit {
     if(confirm("Deseja realmente excluir ?")) {
       this.setorService.delete(setor.id).subscribe(
         () => this.setores = this.setores.filter(element => element != setor),
-        () => alert("Erro ao deletar categoria")
+        (err : {error : {errors : Error[]}}) => {
+              let showErrs = "";
+              err.error.errors.forEach(error => {
+                showErrs+= `${error.descricao} \n`;
+              })
+              alert(showErrs);
+        }
       );
     }
   }

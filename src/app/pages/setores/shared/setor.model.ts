@@ -1,4 +1,4 @@
-import {Servidor} from "../../categories/shared/servidor.model";
+import {Servidor} from "../../servidores/shared/servidor.model";
 
 export class Setor {
    id!:number;

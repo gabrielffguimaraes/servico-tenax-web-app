@@ -9,7 +9,7 @@
     <h2> Servidores </h2>
   </div>
   <div class="col-12 col-md-6 p-0 d-flex justify-content-end">
-    <button type="button" class="btn btn-success align-self-center">+ Novo servidor</button>
+    <a routerLink="new" type="button" class="btn btn-success align-self-center">+ Novo servidor</a>
   </div>
 </div>
 <table class="table table-hover">
@@ -20,14 +20,14 @@
     </tr>
   </thead>
   <tbody class="border-top-0">
-  <tr *ngFor="let category of categories">
+  <tr *ngFor="let servidor of servidores">
     <td>
-      <strong>{{category.name}}</strong><br/>
-      <small class="text-muted">{{category.description}}</small>
+      <strong>{{servidor.nome}} - {{servidor.setor.descricao}}</strong><br/>
+      <small class="text-muted">{{servidor.descricao}}</small>
     </td>
     <td class="text-center">
-      <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="[category.id,'edit']">Editar</button>
-      <button class="btn btn-sm btn-outline-danger" (click)="deleteCategory(category)">Excluir</button>
+      <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="[servidor.id,'edit']">Editar</button>
+      <button class="btn btn-sm btn-outline-danger" (click)="deleteServidor(servidor)">Excluir</button>
     </td>
   </tr>
   </tbody>

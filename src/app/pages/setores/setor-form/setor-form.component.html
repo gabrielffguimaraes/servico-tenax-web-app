@@ -5,71 +5,98 @@
     <li class="breadcrumb-item active">  {{crumbTitle}} </li>
   </ol>
 </nav>
-<div class="row  m-0 p-0 mb-3" >
-  <div class="col-12 col-md-6 p-0">
-    <h2> {{pageTitle}} </h2>
-  </div>
-</div>
 
+<div class="row">
 
-<div class="row col-6 m-0">
-  <div *ngIf="errors.length > 0" class="alert alert-danger" role="alert">
-    <li *ngFor="let err of errors">
-      {{err.descricao}}
-    </li>
-  </div>
-  <form [formGroup]="setorForm" class="p-0" (ngSubmit)="save()">
-    <div class="card">
-      <div class="card-body">
-        <div class="mb-3 row">
-          <label for="id" class="col-2 col-form-label">ID</label>
-          <div class="col-2">
-            <input type="text" formControlName="id" [value]="setor?.id" readonly class="form-control" id="id">
-          </div>
-        </div>
-
-        <div class="mb-3 row">
-          <label for="descricao" class="col-sm-2 col-form-label">Descrição *</label>
-          <div class="col-sm-10">
-            <input  [ngClass]="{
-                      'is-invalid':!isValidField('descricao') && setorForm?.get('descricao')?.touched
-                    }"
-                    id="descricao"
-                    class="form-control"
-                    type="text"
-                    formControlName="descricao"
-                    placeholder="Exp: Setor de atendimento">
-
-            <div class="invalid-feedback" *ngIf="setorForm.get('descricao')?.hasError('minlength')">
-              Minino de 2 caracteres.
-            </div>
-            <div class="invalid-feedback" *ngIf="setorForm.get('descricao')?.hasError('required')">
-              Campo obrigatório
+  <div class="row col-md-6 m-0">
+    <div class="m-0 p-0 mb-3" >
+      <div class="col-12 p-0">
+        <h2> {{pageTitle}} setor </h2>
+      </div>
+    </div>
+    <div *ngIf="errors.length > 0" class="alert alert-danger" role="alert">
+      <li *ngFor="let err of errors">
+        {{err.descricao}}
+      </li>
+    </div>
+    <form [formGroup]="setorForm" class="p-0" (ngSubmit)="save()">
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-3 row">
+            <label for="id" class="col-2 col-form-label">ID</label>
+            <div class="col-2">
+              <input type="text" formControlName="id" [value]="setor?.id" readonly class="form-control" id="id">
             </div>
           </div>
-        </div>
 
-        <div class="mb-12 row">
-          <label for="uf" class="col-sm-2 col-form-label">UF *</label>
-          <div class="col-sm-10">
-            <select id="uf" formControlName="uf" class="form-select form-select mb-3" aria-label="form-select-lg">
-              <option *ngFor="let estado of estados" [value]="estado.sigla">{{estado.descricao}}</option>
-            </select>
+          <div class="mb-3 row">
+            <label for="descricao" class="col-sm-2 col-form-label">Descrição *</label>
+            <div class="col-sm-10">
+              <input  [ngClass]="{'is-invalid':validations.validField('descricao',setorForm)}"
+                      id="descricao"
+                      class="form-control"
+                      type="text"
+                      formControlName="descricao"
+                      placeholder="Exp: Setor de atendimento">
+              <app-error [fm]="setorForm" [name]="'descricao'" [label]="'descricao'"></app-error>
+            </div>
+          </div>
+
+          <div class="mb-12 row">
+            <label for="uf" class="col-sm-2 col-form-label">UF *</label>
+            <div class="col-sm-10">
+              <select id="uf" formControlName="uf" class="form-select form-select mb-3" aria-label="form-select-lg">
+                <option *ngFor="let estado of estados" [value]="estado.sigla">{{estado.descricao}}</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="d-flex m-0 p-0">
-      <button [disabled]="!submitForm || !setorForm.valid" type="submit"
-              class="btn align-self-center w-auto mt-3"
-              [ngClass]="{'btn-success':currentAction=='new' ,'btn-primary':currentAction=='edit'}">
-        {{btnSetor}}
-      </button>
-      <a routerLink="/setores" type="button" class="btn w-auto mt-3 btn-light ms-2">
-        <i class="bi bi-arrow-left"></i>
-        Voltar
-      </a>
-    </div>
-  </form>
-</div>
+      <div class="d-flex m-0 p-0">
+        <button [disabled]="submitForm || !setorForm.valid" type="submit"
+                class="btn align-self-center w-auto mt-3"
+                [ngClass]="{'btn-success':currentAction=='new' ,'btn-primary':currentAction=='edit'}">
+          {{btnSubmit}}
+        </button>
+        <a routerLink="/setores" type="button" class="btn w-auto mt-3 btn-light ms-2">
+          <i class="bi bi-arrow-left"></i>
+          Voltar
+        </a>
+      </div>
+    </form>
+  </div>
 
+  <div class="row col-md-6 m-0 mt-md-0 mt-5" *ngIf="setor?.servidor">
+    <div class="m-0 p-0 mb-3" >
+      <div class="col-12 p-0">
+        <h3><i class="bi bi-people-fill"></i> Servidores </h3>
+      </div>
+      <table class="table table-striped-columns">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Descrição</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let servidor of setor.servidor">
+            <th scope="row">{{servidor.id}}</th>
+            <td>{{servidor.nome}}</td>
+            <td>{{servidor.descricao}}</td>
+            <td>
+              <button title="Alterar servidor" class="btn btn-sm btn-primary me-2" routerLink="/servidores/{{servidor.id}}/edit">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button title="Excluir servidor" class="btn btn-sm btn-danger" (click)="deleteServidor(servidor)">
+                <i class="bi bi-trash3"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SetoresRoutingModule } from './setores-routing.module';
 import { SetoresListComponent } from './setores-list/setores-list.component';
 import { SetorFormComponent } from './setor-form/setor-form.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -14,7 +14,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   imports: [
     CommonModule,
     SetoresRoutingModule,
-    ReactiveFormsModule
+    SharedModule
   ]
 })
 export class SetoresModule { }
