@@ -2,6 +2,11 @@
 
 Serviço Web App cadastro de servidores e setores consumindo uma api na nuvem .
 
+<h5>DEPLOY</h5>
+<ul>
+  <li>GitHub Pages</li>
+</ul>
+
 <h5>METRICAS</h5>
 <small>Boas praticas de programação utilizadas</small>
 <ul>
@@ -12,3 +17,5 @@ Serviço Web App cadastro de servidores e setores consumindo uma api na nuvem .
   <li>Modulos</li>
   <li>Componentização etc ..</li>
 </ul>
+
+
