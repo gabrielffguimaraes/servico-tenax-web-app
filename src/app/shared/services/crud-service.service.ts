@@ -3,7 +3,7 @@ import {Observable, of, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 import {catchError, map} from "rxjs/operators";
 import {Error} from "../models/Error.model";
-import {environment} from "../../../environments/environment.prod";
+import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
