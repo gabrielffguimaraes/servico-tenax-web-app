@@ -4,7 +4,7 @@ import {Injectable} from "@angular/core";
 import {catchError, map} from "rxjs/operators";
 import {Error} from "../models/Error.model";
 import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +19,8 @@ export class CrudService<T> {
     this.apiPath = `${this.apiPath}/${path}`;
   }
 
-  getAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.apiPath).pipe(
+  getAll(params:HttpParams = new HttpParams()): Observable<T[]> {
+    return this.http.get<T[]>(`${this.apiPath}?${params.toString()}`).pipe(
       map((s: T[]) => s)
     )
   }

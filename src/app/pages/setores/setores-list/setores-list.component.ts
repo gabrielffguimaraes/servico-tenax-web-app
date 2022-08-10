@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SetorService } from "../shared/setor.service";
 import { Setor } from "../shared/setor.model";
 import {Error} from "../../../shared/models/Error.model";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {debounceTime, distinctUntilChanged, filter, map, switchMap, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-setores-list',
@@ -10,7 +12,9 @@ import {Error} from "../../../shared/models/Error.model";
 })
 export class SetoresListComponent implements OnInit {
   setores!: Setor[] ;
-  constructor(private setorService:SetorService) {
+  formFilter!: FormGroup;
+  constructor(private setorService:SetorService,
+              private formBuilder:FormBuilder) {
 
   }
 
@@ -19,6 +23,18 @@ export class SetoresListComponent implements OnInit {
       setores => this.setores = setores,
       error => console.log(error)
     )
+    this.buildFormFilter();
+    this.formFilter.get('descricao-filter')?.valueChanges
+      .pipe(
+        map(value =>  value.trim()),
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(value => this.setorService.findByDescricao(value))
+      ).subscribe(
+        setores => {
+          this.setores = setores;
+        }
+      );
   }
   deleteSetor(setor:Setor) {
     if(confirm("Deseja realmente excluir ?")) {
@@ -34,5 +50,9 @@ export class SetoresListComponent implements OnInit {
       );
     }
   }
-
+  private buildFormFilter():void {
+    this.formFilter = this.formBuilder.group({
+      "descricao-filter":[null]
+    })
+  }
 }
