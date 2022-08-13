@@ -8,13 +8,14 @@ import {SetorService} from "../../setores/shared/setor.service";
 import {Observable} from "rxjs";
 import {Setor} from "../../setores/shared/setor.model";
 import {map} from "rxjs/operators";
+import {Page} from "../../../shared/models/Pageable.model";
 
 @Component({
   selector: 'app-servidor-form',
   templateUrl: './servidor-form.component.html',
   styleUrls: ['./servidor-form.component.css']
 })
-export class ServidorFormComponent extends CrudComponent<Servidor> implements OnInit,AfterContentChecked {
+export class ServidorFormComponent extends CrudComponent<Servidor,Page<Servidor>> implements OnInit,AfterContentChecked {
 
   servidor!:Servidor;
   servidorForm!:FormGroup;
@@ -31,8 +32,8 @@ export class ServidorFormComponent extends CrudComponent<Servidor> implements On
   }
   private carregaSetores() :Observable<any> {
       return this.setorService.getAll().pipe(
-        map( setores => {
-         this.setores = setores;
+        map( (setores)=> {
+         this.setores = <Setor[]> setores;
         })
       );
   }

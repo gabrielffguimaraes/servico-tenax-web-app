@@ -13,7 +13,7 @@ import {EMPTY, Observable} from "rxjs";
   templateUrl: './crud.component.html',
   styleUrls: ['./crud.component.css']
 })
-export class CrudComponent<T> implements OnInit {
+export class CrudComponent<T,P> implements OnInit {
   form!:FormGroup;
 
   currentAction!: string;
@@ -26,11 +26,11 @@ export class CrudComponent<T> implements OnInit {
   validations:Validations = new Validations();
   errors: Error[] = [];
 
-  protected crudService: CrudService<T>;
+  protected crudService: CrudService<T,P>;
   protected route:ActivatedRoute;
   protected router:Router;
   constructor(
-              crudService: CrudService<T>,
+              crudService: CrudService<T,P>,
               route:ActivatedRoute,
               router:Router
   ) {

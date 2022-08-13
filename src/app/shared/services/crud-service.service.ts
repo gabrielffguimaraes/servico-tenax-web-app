@@ -1,7 +1,7 @@
 
 import {Observable, of, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
-import {catchError, map} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 import {Error} from "../models/Error.model";
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
@@ -9,7 +9,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
-export class CrudService<T> {
+export class CrudService<T,P> {
   protected URL_BASE_API = `${environment.URL_BASE}${environment.API}`;
   protected apiPath: string = this.URL_BASE_API;
 
@@ -19,10 +19,8 @@ export class CrudService<T> {
     this.apiPath = `${this.apiPath}/${path}`;
   }
 
-  getAll(params:HttpParams = new HttpParams()): Observable<T[]> {
-    return this.http.get<T[]>(`${this.apiPath}?${params.toString()}`).pipe(
-      map((s: T[]) => s)
-    )
+  getAll(params:HttpParams = new HttpParams()): Observable<T[] | P> {
+    return this.http.get<T[] | P>(`${this.apiPath}?${params.toString()}`).pipe(tap(console.log));
   }
   getById(id: number): Observable<T> {
     return this.http.get(`${this.apiPath}/${id}`).pipe(

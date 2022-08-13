@@ -24,7 +24,7 @@ export class SetoresListComponent implements OnInit {
 
   ngOnInit(): void {
     this.setorService.getAll().subscribe(
-      setores => this.setores = setores,
+      setores => this.setores = <Setor[]>setores,
       error => console.log(error)
     )
     this.buildFormFilter();
@@ -36,7 +36,7 @@ export class SetoresListComponent implements OnInit {
         switchMap(value => this.setorService.findByDescricao(value))
       ).subscribe(
         setores => {
-          this.setores = setores;
+          this.setores = <Setor[]>setores;
         }
       );
   }

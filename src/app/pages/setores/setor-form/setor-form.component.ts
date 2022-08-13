@@ -8,13 +8,14 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CrudComponent} from "../../../shared/components/crud/crud.component";
 import {Servidor} from "../../servidores/shared/servidor.model";
 import {ServidorService} from "../../servidores/shared/servidor.service";
+import {Page} from "../../../shared/models/Pageable.model";
 
 @Component({
   selector: 'app-setor-form',
   templateUrl: './setor-form.component.html',
   styleUrls: ['./setor-form.component.css']
 })
-export class SetorFormComponent extends CrudComponent<Setor> implements OnInit,AfterContentChecked {
+export class SetorFormComponent extends CrudComponent<Setor,Page<Setor>> implements OnInit,AfterContentChecked {
 
   setor!:Setor;
   setorForm!:FormGroup;
