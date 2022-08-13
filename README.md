@@ -15,6 +15,7 @@ Serviço Web App cadastro de servidores e setores consumindo uma api na nuvem .
   <li>Polimosfismo</li>
   <li>Validacoes personalizadas </li>
   <li>Modulos</li>
+  <li>Paginação</li>
   <li>Componentização etc ..</li>
 </ul>
 
