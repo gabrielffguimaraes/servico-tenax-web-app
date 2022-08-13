@@ -17,8 +17,7 @@ export class ServidoresListComponent implements OnInit {
   formFilter!: FormGroup;
 
   constructor(private servidorService:ServidorService,
-              private formBuilder:FormBuilder) {
-  }
+              private formBuilder:FormBuilder) {}
 
   ngOnInit(): void {
     this.buildFormFilter();

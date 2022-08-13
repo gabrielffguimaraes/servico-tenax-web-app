@@ -10,8 +10,8 @@ import {tap} from "rxjs/operators";
   providedIn: 'root'
 })
 export class ServidorService extends CrudService<Servidor,Page<Servidor>> {
-  URL_BASE_API!:string;
-  apiPath!:string;
+  //URL_BASE_API!:string;
+  //apiPath!:string;
 
   constructor(protected http:HttpClient) {
     super(http);

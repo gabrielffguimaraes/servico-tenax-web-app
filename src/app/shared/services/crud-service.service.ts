@@ -20,7 +20,7 @@ export class CrudService<T,P> {
   }
 
   getAll(params:HttpParams = new HttpParams()): Observable<T[] | P> {
-    return this.http.get<T[] | P>(`${this.apiPath}?${params.toString()}`).pipe(tap(console.log));
+    return this.http.get<T[] | P>(`${this.apiPath}?${params.toString()}`);
   }
   getById(id: number): Observable<T> {
     return this.http.get(`${this.apiPath}/${id}`).pipe(

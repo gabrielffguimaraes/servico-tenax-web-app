@@ -11,8 +11,8 @@ import {Servidor} from "../../servidores/shared/servidor.model";
 })
 export class SetorService extends CrudService<Setor,Page<Setor>> {
 
-  URL_BASE_API!:string;
-  apiPath!:string;
+  //URL_BASE_API!:string;
+  //apiPath!:string;
 
   constructor(protected http:HttpClient) {
     super(http);

@@ -6,7 +6,7 @@
       class="page-item"
       [ngClass]="{'active':i == currentPage}"
     >
-      <a class="page-link" [routerLink]="['./']" [queryParams]="{page:i}">{{i + 1}}</a>
+      <a class="page-link" (click)="navigate(i)">{{i + 1}}</a>
     </li>
     <li class="page-item" (click)="next()"><a class="page-link" href="javascript:void(0)">Próximo</a></li>
   </ul>
